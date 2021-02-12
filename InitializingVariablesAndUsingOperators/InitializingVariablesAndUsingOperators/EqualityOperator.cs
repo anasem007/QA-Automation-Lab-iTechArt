@@ -25,8 +25,11 @@ namespace InitializingVariablesAndUsingOperators
             Console.WriteLine("Сравнение двух операндов записи, у которых " +
                               $"соотвествуют записи всех полей  {person1 == person2}");
         }
-       
-        public static bool IsExampleIfStringEquality(string a, string b) => a == b;
+
+        public static void IsExampleIfStringEquality(string a, string b)
+        {
+            Console.WriteLine($"Сравнение двух строк: {a == b}");
+        }
 
         public static void IsExampleDelegateEquality()
         {
@@ -47,9 +50,12 @@ namespace InitializingVariablesAndUsingOperators
             b = handlerFirst + handlerSecond;
             Console.WriteLine("Сравнение двух делегатов, ссылающихся на разный список методов: " + (a == b));
         }
-        
-        public static bool IsExampleOfInequalityOperatorUsing(int a, int b) => a != b;
-        
+
+        public static void IsExampleOfInequalityOperatorUsing(int a, int b)
+        {
+           Console.WriteLine($"Неравенство двух целочисленных значений {a != b}");
+        }
+
         private static void FirstDelegateMethod()
         {
             Console.WriteLine("Evening");
