@@ -9,10 +9,8 @@ namespace ClassesObjectsMethods.Generators
     {
        public List<Employee> getReport(List<Employee> employees)
        {
-           var sortedEmployees = (List<Employee>) employees.OrderBy(e => e.Company.Name)
-               .ThenByDescending(c => c.Job.Salary);
-
-           return sortedEmployees;
+           return employees.OrderBy(e => e.Company.Name)
+               .ThenByDescending(c => c.Job.Salary).ToList();
        }
     }
 }

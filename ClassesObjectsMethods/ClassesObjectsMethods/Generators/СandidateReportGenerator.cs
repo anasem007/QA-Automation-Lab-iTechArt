@@ -9,10 +9,8 @@ namespace ClassesObjectsMethods.Generators
     {
         public List<Candidate> getReport(List<Candidate> candidates)
         {
-            var sortedCandidates = (List<Candidate>) candidates.OrderBy(c => c.Job.Title)
-                .ThenBy(c => c.Job.Salary);
-
-            return sortedCandidates;
+            return (List<Candidate>) candidates.OrderBy(c => c.Job.Title)
+                .ThenBy(c => c.Job.Salary).ToList();
         }
     }
 }
