@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ClassesObjectsMethods.Interfaces;
@@ -5,12 +6,20 @@ using ClassesObjectsMethods.Models;
 
 namespace ClassesObjectsMethods.Generators
 {
-    public class СandidateReportGenerator : IReportGenerator<Candidate>
+    public class CandidateReportGenerator : IReportGenerator<Candidate>
     {
-        public List<Candidate> getReport(List<Candidate> candidates)
-        {
-            return (List<Candidate>) candidates.OrderBy(c => c.Job.Title)
-                .ThenBy(c => c.Job.Salary).ToList();
+        public void createReport(List<Candidate> candidates) 
+        { 
+            Console.WriteLine("{0,-36}  |  {1,-25}  |  {2,-40}  |  {3,-10}", 
+                "UserId", "FullName", "JobTittle", "Salary"); 
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------------"); 
+            
+            candidates
+                .OrderBy(u => u.Job.Title)
+                .ThenBy(u => u.Job.Salary)
+                .ToList()
+                .ForEach(u=> Console.WriteLine("{0,20}  |  {1,-25}  |  {2,-40}  |  {3,-10}", 
+                         u.Id, u.FullName, u.Job.Title, u.Job.Salary));
         }
     }
 }
