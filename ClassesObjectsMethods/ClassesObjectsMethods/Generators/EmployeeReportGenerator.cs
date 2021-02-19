@@ -8,7 +8,7 @@ namespace ClassesObjectsMethods.Generators
 {
     public class EmployeeReportGenerator : IReportGenerator<Employee>
     { 
-        public void createReport(List<Employee> employees) 
+        public void CreateReport(List<Employee> employees) 
         { 
             Console.WriteLine("{0,-36}  |  {1,-40}  |  {2,-25}  |  {3,-10}", 
                 "UserId", "Company Name", "User FullName", "Salary"); 

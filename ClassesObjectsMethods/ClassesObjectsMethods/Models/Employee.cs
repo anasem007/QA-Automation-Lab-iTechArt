@@ -2,15 +2,18 @@ using System;
 
 namespace ClassesObjectsMethods.Models
 {
-    public class Employee : User, IDisplayable<Employee>
+    public class Employee : User
     {
         public Company Company { get; set; }
         
-        public void DisplayData(Employee employee)
+        public Job Job { get; set; }
+       
+        public new void DisplayData()
         {
-            Console.WriteLine($"Hello, I'm {employee.FullName }, {employee.Job.Title} in {employee.Company.Name} " +
-                              $"({employee.Company.Country}, {employee.Company.City}, {employee.Company.Street}" +
-                              $" and my salary {employee.Job.Salary}");   
+            base.DisplayData();
+            Console.WriteLine($"I'm {this.Job.Title} in {this.Company.Name} " +
+                              $"({this.Company.Country}, {this.Company.City}, {this.Company.Street})" +
+                              $" and my salary {this.Job.Salary}.\n");   
         }
     }
 }

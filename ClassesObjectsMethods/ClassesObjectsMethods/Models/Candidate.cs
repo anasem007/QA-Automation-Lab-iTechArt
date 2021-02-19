@@ -1,15 +1,16 @@
 using System;
-using ClassesObjectsMethods;
 
 namespace ClassesObjectsMethods.Models
 {
-    public class Candidate : User, IDisplayable<Candidate>
+    public class Candidate : User
     {
-        public void DisplayData(Candidate candidate)
+        public Job Job { get; set; }
+        
+        public new void DisplayData()
         {
-            Console.WriteLine($"Hello, I'm {candidate.FullName}, " +
-                              $"I want to be a {candidate.Job.Title}({candidate.Job.Description})" +
-                              $"with a salary from {candidate.Job.Salary}");
+            base.DisplayData();
+            Console.WriteLine($"I want to be a {Job.Title} ({Job.Description}) " +
+                              $"with a salary from {Job.Salary}.\n");
         }
     }
 }

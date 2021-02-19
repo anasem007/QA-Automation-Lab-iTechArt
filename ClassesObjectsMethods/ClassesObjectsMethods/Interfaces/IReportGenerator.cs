@@ -4,6 +4,6 @@ namespace ClassesObjectsMethods.Interfaces
 {
     public interface IReportGenerator<T>
     {
-        void createReport(List<T> data);
+        void CreateReport(List<T> data);
     }
 }

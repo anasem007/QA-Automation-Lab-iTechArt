@@ -1,7 +1,7 @@
-namespace ClassesObjectsMethods.Models
+namespace ClassesObjectsMethods.Interfaces
 {
-    public interface IDisplayable<T>
+    public interface IDisplayable
     {
-        void DisplayData(T data);
+        void DisplayData();
     }
 }
