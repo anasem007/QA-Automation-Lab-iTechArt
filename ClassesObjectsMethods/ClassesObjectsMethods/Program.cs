@@ -3,6 +3,7 @@ using Bogus;
 using ClassesObjectsMethods.Factories;
 using ClassesObjectsMethods.Generators;
 using ClassesObjectsMethods.Models;
+using ClassesObjectsMethods.Utils;
 
 namespace ClassesObjectsMethods
 {
@@ -20,13 +21,15 @@ namespace ClassesObjectsMethods
             
             Console.WriteLine("\n");
 
-            var candidates = factory.GenerateCandidates(new Faker().Random.Int(1, 100));
+            var candidates = factory.GenerateCandidates(new Faker()
+                .Random.Int(Constants.MinUsersNumber, Constants.MaxUsersNumber));
             var reportGenerator1 = new CandidateReportGenerator();
             reportGenerator1.CreateReport(candidates);
             
             Console.WriteLine("\n");
-            
-            var employees = factory.GenerateEmployees(new Faker().Random.Int(1, 100));
+
+            var employees = factory.GenerateEmployees(new Faker()
+                .Random.Int(Constants.MinUsersNumber, Constants.MaxUsersNumber));
             var reportGenerator2 = new EmployeeReportGenerator();
             reportGenerator2.CreateReport(employees);
         }

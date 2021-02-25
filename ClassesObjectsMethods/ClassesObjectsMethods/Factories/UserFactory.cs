@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using ClassesObjectsMethods.Models;
+using ClassesObjectsMethods.Utils;
 
 namespace ClassesObjectsMethods.Factories
 {
@@ -47,7 +48,7 @@ namespace ClassesObjectsMethods.Factories
                 {
                     j.Title = f.Name.JobTitle();
                     j.Description = f.Name.JobDescriptor();
-                    j.Salary = f.Random.Int(200, 5000);
+                    j.Salary = f.Random.Int(Constants.MinSalary, Constants.MaxSalary);
                 });
         }
         
