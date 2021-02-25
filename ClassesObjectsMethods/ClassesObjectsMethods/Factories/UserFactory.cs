@@ -45,14 +45,29 @@ namespace ClassesObjectsMethods.Factories
                 }); 
         }
         
-        public List<Employee> GenerateEmployees(int count = 1)
+        private List<Employee> GenerateEmployees(int count = 1)
         {
             return CreateEmployee().Generate(count).ToList();
         }
         
-        public List<Candidate> GenerateCandidates(int count = 1)
+        private List<Candidate> GenerateCandidates(int count = 1)
         {
             return CreateCandidate().Generate(count).ToList();
+        }
+
+        public List<T> GetUsers<T>(int count)
+        {
+            if (typeof(T) == typeof(Candidate))
+            {
+                return GenerateCandidates(count) as List<T>;
+            }
+
+            if (typeof(T) == typeof(Employee))
+            {
+                return GenerateEmployees(count) as List<T>;
+            }
+
+            return null;
         }
     }
     
