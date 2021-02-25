@@ -2,12 +2,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using ClassesObjectsMethods.Models;
-using ClassesObjectsMethods.Utils;
 
 namespace ClassesObjectsMethods.Factories
 {
     public class UserFactory
     {
+        private readonly CompanyFactory _companyFactory;
+        private readonly JobFactory _jobFactory;
+
+        public UserFactory(CompanyFactory companyFactory, JobFactory jobFactory)
+        {
+            _companyFactory = companyFactory;
+            _jobFactory = jobFactory;
+        }
+
         public Faker<Employee> CreateEmployee()
         {
             return new Faker<Employee>()
@@ -15,8 +23,8 @@ namespace ClassesObjectsMethods.Factories
                 {
                     u.FirstName = f.Name.FirstName();
                     u.LastName = f.Name.LastName();
-                    u.Job = CreateJob();
-                    u.Company = CreateCompany();
+                    u.Job = _jobFactory.CreateJob();
+                    u.Company = _companyFactory.CreateCompany();
                 });
         }
         
@@ -27,7 +35,7 @@ namespace ClassesObjectsMethods.Factories
                 {
                     u.FirstName = f.Name.FirstName();
                     u.LastName = f.Name.LastName();
-                    u.Job = CreateJob();
+                    u.Job = _jobFactory.CreateJob();
                 }); 
         }
         
@@ -39,29 +47,6 @@ namespace ClassesObjectsMethods.Factories
         public List<Candidate> GenerateCandidates(int count = 1)
         {
             return CreateCandidate().Generate(count).ToList();
-        }
-
-        private Job CreateJob()
-        {
-            return new Faker<Job>()
-                .Rules((f, j) =>
-                {
-                    j.Title = f.Name.JobTitle();
-                    j.Description = f.Name.JobDescriptor();
-                    j.Salary = f.Random.Int(Constants.MinSalary, Constants.MaxSalary);
-                });
-        }
-        
-        private Company CreateCompany()
-        {
-            return new Faker<Company>()
-                .Rules((f, c) =>
-                {
-                    c.Name = f.Company.CompanyName();
-                    c.Country = f.Address.Country();
-                    c.City = f.Address.City();
-                    c.Street = f.Address.StreetAddress();
-                });
         }
     }
     
