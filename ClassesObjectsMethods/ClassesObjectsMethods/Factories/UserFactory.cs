@@ -10,6 +10,12 @@ namespace ClassesObjectsMethods.Factories
         private readonly CompanyFactory _companyFactory;
         private readonly JobFactory _jobFactory;
 
+        public UserFactory()
+        {
+            _companyFactory = new CompanyFactory();
+            _jobFactory = new JobFactory();
+        }
+        
         public UserFactory(CompanyFactory companyFactory, JobFactory jobFactory)
         {
             _companyFactory = companyFactory;
@@ -19,23 +25,23 @@ namespace ClassesObjectsMethods.Factories
         public Faker<Employee> CreateEmployee()
         {
             return new Faker<Employee>()
-                .Rules((f, u) =>
+                .Rules((f, e) =>
                 {
-                    u.FirstName = f.Name.FirstName();
-                    u.LastName = f.Name.LastName();
-                    u.Job = _jobFactory.CreateJob();
-                    u.Company = _companyFactory.CreateCompany();
+                    e.FirstName = f.Name.FirstName();
+                    e.LastName = f.Name.LastName();
+                    e.Job = _jobFactory.CreateJob();
+                    e.Company = _companyFactory.CreateCompany();
                 });
         }
         
         public Faker<Candidate> CreateCandidate()
         {
             return new Faker<Candidate>()
-                .Rules((f, u) =>
+                .Rules((f, c) =>
                 {
-                    u.FirstName = f.Name.FirstName();
-                    u.LastName = f.Name.LastName();
-                    u.Job = _jobFactory.CreateJob();
+                    c.FirstName = f.Name.FirstName();
+                    c.LastName = f.Name.LastName();
+                    c.Job = _jobFactory.CreateJob();
                 }); 
         }
         
