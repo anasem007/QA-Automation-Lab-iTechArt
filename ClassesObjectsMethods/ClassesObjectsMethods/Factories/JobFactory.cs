@@ -6,7 +6,7 @@ namespace ClassesObjectsMethods.Factories
 {
     public class JobFactory
     {
-        public Job CreateJob()
+        public Faker<Job> CreateJob()
         {
             return new Faker<Job>()
                 .Rules((f, j) =>

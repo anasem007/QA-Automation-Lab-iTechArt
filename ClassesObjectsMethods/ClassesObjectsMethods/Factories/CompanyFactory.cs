@@ -5,7 +5,7 @@ namespace ClassesObjectsMethods.Factories
 {
     public class CompanyFactory
     {
-        public Company CreateCompany()
+        public Faker<Company> CreateCompany()
         {
             return new Faker<Company>()
                 .Rules((f, c) =>
