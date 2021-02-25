@@ -23,15 +23,15 @@ namespace ClassesObjectsMethods
 
             var candidates = factory.GenerateCandidates(new Faker()
                 .Random.Int(Constants.MinUsersNumber, Constants.MaxUsersNumber));
-            var reportGenerator1 = new CandidateReportGenerator();
-            reportGenerator1.CreateReport(candidates);
+            var candidateReportGenerator = new CandidateReportGenerator();
+            candidateReportGenerator.CreateReport(candidates);
             
             Console.WriteLine("\n");
 
             var employees = factory.GenerateEmployees(new Faker()
                 .Random.Int(Constants.MinUsersNumber, Constants.MaxUsersNumber));
-            var reportGenerator2 = new EmployeeReportGenerator();
-            reportGenerator2.CreateReport(employees);
+            var employeeReportGenerator = new EmployeeReportGenerator();
+            employeeReportGenerator.CreateReport(employees);
         }
     }
 }
