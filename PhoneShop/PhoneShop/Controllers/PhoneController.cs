@@ -1,50 +1,75 @@
 using System.Collections.Generic;
-using PhoneShop.DTOs;
+using NLog;
+using PhoneShop.Exceptions;
 using PhoneShop.Models;
-using PhoneShop.Services;
+using PhoneShop.Repositories;
 
 namespace PhoneShop.Controllers
 {
     public class PhoneController
     {
-        private readonly PhoneService _phoneService;
+        private readonly PhoneRepository _phoneRepository;
+        
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public PhoneController()
         { 
-            _phoneService = new PhoneService();
+            _phoneRepository = new PhoneRepository();
         }
 
         public void AddPhones(List<Phone> phones)
         {
             phones.ForEach(phone =>
             {
-                _phoneService.AddPhone(phone);
+                _phoneRepository.Add(phone);
             });
         }
         
-        public OrderResponseDto FindAvailablePhonesByModelAndShopId(string model, int shopId)
+        public Phone FindAvailablePhonesByModelAndShopId(string model, int shopId)
         {
-            var phone = _phoneService.FindAvailablePhoneByModelAndShopId(model, shopId);
-            var responseDto = OrderResponseDto.ConvertFromPhone(phone);
+            try
+            {
+                return _phoneRepository.FindAvailablePhoneByModelAndShopId(model, shopId);
+            }
+            catch (PhoneNotFoundException e)
+            {
+                _logger.Error(e.Message);
+            }
 
-            return responseDto;
+            return null;
         }
 
         public List<Phone> FindPhonesByModel(string model)
         {
-            return _phoneService.FindPhonesByModel(model);
+            try
+            {
+                return _phoneRepository.FindByModel(model);
+            }
+            catch (PhoneNotFoundException e)
+            {
+               _logger.Error(e.Message);
+            }
+
+            return null;
         }
-        
+
         public List<Phone> FindAvailablePhonesByModel(string model)
         {
-            return _phoneService.FindAvailablePhonesByModel(model);
+            try
+            {
+                return _phoneRepository.FindAvailablePhonesByModel(model);
+            }
+            catch (PhoneNotFoundException e)
+            {
+                _logger.Error(e.Message);
+            }
+
+            return null;
         }
 
         public List<Phone> GetPhones()
         {
-            return _phoneService.GetPhones();
+            return _phoneRepository.GetPhones();
         }
-
-       
     }
 }
