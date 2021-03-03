@@ -21,7 +21,8 @@ namespace PhoneShop
             shopController.AddShops(shops);
             phoneController.AddPhones(phones);
             
-            Console.WriteLine(phoneController.GetPhones().Count);
+            shopController.GetShops().ForEach(shop => shop.DisplayData());
+            Console.WriteLine();
             
             var phoneShop = new PhoneShop(phoneController, shopController);
 
