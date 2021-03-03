@@ -1,43 +1,63 @@
-using System;
 using System.Collections.Generic;
-using PhoneShop.Model;
+using PhoneShop.Exceptions;
 using PhoneShop.Models;
 using PhoneShop.Repositories;
-using PhoneShop.Services;
 
 namespace PhoneShop.Controllers
 {
     public class ShopController
     {
-        private readonly ShopService _shopService;
-
+        private readonly ShopRepository _shopRepository;
+        
+        private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+       
         public ShopController()
         {
-            _shopService = new ShopService();
+            _shopRepository = new ShopRepository();
         }
 
         public Shop FindShopByName(string name)
         {
-            Shop shop;
             try
-            { 
-                shop = _shopService.FindShopByName(name);
-            }
-            catch (Exception e)
             {
-                Console.WriteLine("Такого магазина не существует. Пожалуйста, введите название магазина заново.");
-                Console.WriteLine(e);
-                throw;
+                return _shopRepository.FindByName(name);
+            }
+            catch (ShopNotFoundException e)
+            {
+                _logger.Error(e.Message);
             }
 
-            return shop;
+            return null;
+        }
+
+        public List<Shop> FindShopsByIds(List<Phone> phones)
+        {
+            try
+            {
+                var shops = new List<Shop>();
+
+                phones.ForEach(phone =>
+                {
+                    if (shops.Contains(_shopRepository.FindById(phone.ShopId))) return;
+                    shops.Add(_shopRepository.FindById(phone.ShopId));
+                });
+
+                return shops;
+            }
+
+            catch (ShopNotFoundException e)
+            {
+                _logger.Error(e.Message);
+            }
+
+            return null;
         }
 
         public void AddShops(List<Shop> shops)
         {
             shops.ForEach(shop =>
             {
-                _shopService.AddShop(shop);
+                _shopRepository.Add(shop);
             });
         }
     }
