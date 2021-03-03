@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using PhoneShop.Exceptions;
 using PhoneShop.Models;
 
 namespace PhoneShop.Repositories
@@ -13,41 +14,43 @@ namespace PhoneShop.Repositories
             _phones = new List<Phone>();
         }
 
-        public List<Phone> FindPhonesByModel(string model)
+        public List<Phone> FindByModel(string model)
         {
-            var phonesWithDesiredModel =
-                from phone in _phones
-                where phone.Model == model
-                select phone;
+            var phones = _phones
+                    .Where(phone => phone.Model.Equals(model))
+                    .ToList();
 
-            return phonesWithDesiredModel.ToList();
+            if (phones.Count == 0)
+            {
+                throw new PhoneNotFoundException($"Phones with model " +
+                                                 $"{model} don't exist.", model);
+            }
+            
+            return phones;
         }
 
         public List<Phone> FindAvailablePhonesByModel(string model)
         {
-            var phones = FindPhonesByModel(model);
-           
-            var availablePhonesWithDesiredModel =
-                from phone in phones
-                where phone.IsAvailable
-                select phone;
-            
-            return availablePhonesWithDesiredModel.ToList();
+            var phones = FindByModel(model)
+                .Where(phone => phone.IsAvailable)
+                .ToList();
+
+            if (phones.Count == 0)
+            {
+                throw new PhoneNotFoundException($"The phone of  model {model} is not in stock.",
+                    model);
+            }
+
+            return phones;
         }
         
         public Phone FindAvailablePhoneByModelAndShopId(string model, int shopId)
         {
-            var phones = FindAvailablePhonesByModel(model);
-           
-            var availablePhoneWithDesiredModelAndShopId =
-                from phone in phones
-                where phone.ShopId == shopId
-                select phone;
-
-            return availablePhoneWithDesiredModelAndShopId as Phone;
+            return FindAvailablePhonesByModel(model)
+                .First(p => p.ShopId == shopId);
         }
 
-        public void AddPhone(Phone phone)
+        public void Add(Phone phone)
         {
             _phones.Add(phone);
         }
@@ -57,7 +60,4 @@ namespace PhoneShop.Repositories
             return _phones;
         }
     }
-    
-        
-        
 }

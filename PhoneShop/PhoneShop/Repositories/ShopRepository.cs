@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using PhoneShop.Exceptions;
 using PhoneShop.Models;
 
 namespace PhoneShop.Repositories
@@ -13,17 +14,22 @@ namespace PhoneShop.Repositories
             _shops = new List<Shop>();
         }
 
-        public Shop FindShopByName(string name)
+        public Shop FindByName(string name)
         {
-            var shopWithGivenName =
-                from shop in _shops
-                where shop.Name.Equals(name)
-                select shop;
-            
-            return  shopWithGivenName as Shop;
+            foreach (var shop in _shops.Where(shop => shop.Name.Equals(name))) return shop;
+
+            throw new ShopNotFoundException($"Shop {name} doesn't exist.", 
+                name);
         }
 
-        public void AddShop(Shop shop)
+        public Shop FindById(int id)
+        {
+            foreach (var shop in _shops.Where(shop => shop.Id == id)) return shop;
+
+            throw new ShopNotFoundException($"Shop doesn't exist.");
+        }
+
+        public void Add(Shop shop)
         {
             _shops.Add(shop);
         }
