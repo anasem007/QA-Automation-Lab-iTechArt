@@ -33,5 +33,10 @@ namespace PhoneShop.Repositories
         {
             _shops.Add(shop);
         }
+
+        public List<Shop> GetShops()
+        {
+            return _shops;
+        }
     }
 }

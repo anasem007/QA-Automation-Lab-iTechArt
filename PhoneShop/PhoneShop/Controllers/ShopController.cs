@@ -60,5 +60,10 @@ namespace PhoneShop.Controllers
                 _shopRepository.Add(shop);
             });
         }
+
+        public List<Shop> GetShops()
+        {
+            return _shopRepository.GetShops();
+        }
     }
 }
