@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using PhoneShop.Interfaces;
 using PhoneShop.Model;
 
 namespace PhoneShop.Models
 {
-    public class Shop
+    public class Shop : IDisplayable
     {
         public int Id { get; set; }
         
@@ -36,6 +37,13 @@ namespace PhoneShop.Models
             });
             return (ios, android);
         }
-        
+
+        public void DisplayData()
+        {
+            Console.WriteLine($"Name: {Name}");
+            Console.WriteLine($"Description: {Description}");
+            Console.WriteLine($"Available Ios Quantity: {CountAvailablePhones().Item1}");
+            Console.WriteLine($"Available Android Quantity: {CountAvailablePhones().Item2}");
+        }
     }
 }
