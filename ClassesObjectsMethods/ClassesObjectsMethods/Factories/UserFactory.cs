@@ -7,60 +7,67 @@ namespace ClassesObjectsMethods.Factories
 {
     public class UserFactory
     {
+        private readonly CompanyFactory _companyFactory;
+        private readonly JobFactory _jobFactory;
+
+        public UserFactory()
+        {
+            _companyFactory = new CompanyFactory();
+            _jobFactory = new JobFactory();
+        }
+        
+        public UserFactory(CompanyFactory companyFactory, JobFactory jobFactory)
+        {
+            _companyFactory = companyFactory;
+            _jobFactory = jobFactory;
+        }
+
         public Faker<Employee> CreateEmployee()
         {
             return new Faker<Employee>()
-                .Rules((f, u) =>
+                .Rules((f, e) =>
                 {
-                    u.FirstName = f.Name.FirstName();
-                    u.LastName = f.Name.LastName();
-                    u.Job = CreateJob();
-                    u.Company = CreateCompany();
+                    e.FirstName = f.Name.FirstName();
+                    e.LastName = f.Name.LastName();
+                    e.Job = _jobFactory.CreateJob();
+                    e.Company = _companyFactory.CreateCompany();
                 });
         }
         
         public Faker<Candidate> CreateCandidate()
         {
             return new Faker<Candidate>()
-                .Rules((f, u) =>
+                .Rules((f, c) =>
                 {
-                    u.FirstName = f.Name.FirstName();
-                    u.LastName = f.Name.LastName();
-                    u.Job = CreateJob();
+                    c.FirstName = f.Name.FirstName();
+                    c.LastName = f.Name.LastName();
+                    c.Job = _jobFactory.CreateJob();
                 }); 
         }
         
-        public List<Employee> GenerateEmployees(int count = 1)
+        private List<Employee> GenerateEmployees(int count = 1)
         {
             return CreateEmployee().Generate(count).ToList();
         }
         
-        public List<Candidate> GenerateCandidates(int count = 1)
+        private List<Candidate> GenerateCandidates(int count = 1)
         {
             return CreateCandidate().Generate(count).ToList();
         }
 
-        private Job CreateJob()
+        public List<T> GetUsers<T>(int count)
         {
-            return new Faker<Job>()
-                .Rules((f, j) =>
-                {
-                    j.Title = f.Name.JobTitle();
-                    j.Description = f.Name.JobDescriptor();
-                    j.Salary = f.Random.Int(200, 5000);
-                });
-        }
-        
-        private Company CreateCompany()
-        {
-            return new Faker<Company>()
-                .Rules((f, c) =>
-                {
-                    c.Name = f.Company.CompanyName();
-                    c.Country = f.Address.Country();
-                    c.City = f.Address.City();
-                    c.Street = f.Address.StreetAddress();
-                });
+            if (typeof(T) == typeof(Candidate))
+            {
+                return GenerateCandidates(count) as List<T>;
+            }
+
+            if (typeof(T) == typeof(Employee))
+            {
+                return GenerateEmployees(count) as List<T>;
+            }
+
+            return null;
         }
     }
     
