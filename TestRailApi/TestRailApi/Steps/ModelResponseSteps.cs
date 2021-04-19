@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using RestSharp;
 using TestRailApi.Helpers;
 using TestRailApi.Models;
@@ -7,7 +6,7 @@ namespace TestRailApi.Steps
 {
     public class ModelResponseSteps<T>
     {
-        public async Task<IRestResponse<T>> CreateResponse(string endPoint, string requestType,
+        public  IRestResponse<T> CreateResponse(string endPoint, string requestType,
             User user, object model = null)
         {
             var request = new Request
