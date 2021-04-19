@@ -17,4 +17,39 @@
         <PackageReference Include="RestSharp" Version="106.11.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="TestData\fakeUser.json" />
+      <Content Include="TestData\fakeUser.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\invalidProject.json" />
+      <Content Include="TestData\invalidProject.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\projectRequestModel.json" />
+      <Content Include="TestData\projectRequestModel.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\suite.json" />
+      <Content Include="TestData\suite.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\updateSuite.json" />
+      <Content Include="TestData\updateSuite.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\user.json" />
+      <Content Include="TestData\user.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\userNoAccess.json" />
+      <Content Include="TestData\userNoAccess.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
