@@ -5,7 +5,7 @@ namespace TestRailApi.Models
     public class SuiteResponseModel
     {
         public string Description { get; set; }
-        public DateTime CompletedOn { get; set; }
+        public int? CompletedOn { get; set; }
         public int Id { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsBaseline { get; set; }
