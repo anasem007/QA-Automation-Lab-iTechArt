@@ -17,7 +17,7 @@ namespace TestRailApi.Tests
         private ModelResponseSteps<SuiteResponseModel> _modelResponseSteps;
 
         [OneTimeSetUp]
-        public void SetUp()
+        public void OneTimeSetUp()
         {
             _modelResponseSteps = new ModelResponseSteps<SuiteResponseModel>();
 
@@ -26,8 +26,8 @@ namespace TestRailApi.Tests
                 .CreateResponse(EndPoints.AddProjectEndPoint, "Post", TestData.User, TestData.Project).Result;
             ProjectId = projectResponse.Data.Id;
             
-            var response = _modelResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.User, TestData.Suite).Result;
-            SuiteId = response.Data.Id;
+            var suiteResponse = _modelResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.User, TestData.Suite).Result;
+            SuiteId = suiteResponse.Data.Id;
         }
         
         [Test]
@@ -76,6 +76,7 @@ namespace TestRailApi.Tests
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
+        [Test]
         public void UpdateSuite_RequestWithoutName_ShouldReturnOk()
         {
             var expectedResult = ModelGeneratorHelper.GetSuiteWithoutName(TestData.UpdateSuite);
@@ -83,12 +84,13 @@ namespace TestRailApi.Tests
             
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 Assert.AreEqual(TestData.Suite.Name, response.Data.Name);
                 Assert.AreEqual(expectedResult.Description, response.Data.Description);
             });
         }
         
+        [Test]
         public void UpdateSuite_RequestWithoutDescription_ShouldReturnOk()
         {
             var expectedResult = ModelGeneratorHelper.GetSuiteWithoutDescription(TestData.UpdateSuite);
@@ -96,7 +98,7 @@ namespace TestRailApi.Tests
             
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 Assert.AreEqual(TestData.Suite.Description, response.Data.Description);
                 Assert.AreEqual(expectedResult.Name, response.Data.Name);
             });
