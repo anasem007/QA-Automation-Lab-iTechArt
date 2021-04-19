@@ -16,24 +16,24 @@ namespace TestRailApi.Tests
         
         private ModelResponseSteps<SuiteResponseModel> _modelResponseSteps;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public new void SetUp()
         {
             _modelResponseSteps = new ModelResponseSteps<SuiteResponseModel>();
 
             var projectResponseSteps = new ModelResponseSteps<ProjectResponseModel>();
             var projectResponse = projectResponseSteps
-                .CreateResponse(EndPoints.AddProjectEndPoint, "Post", TestData.User, TestData.Project).Result;
+                .CreateResponse(EndPoints.AddProjectEndPoint, "Post", TestData.User, TestData.Project);
             ProjectId = projectResponse.Data.Id;
             
-            var suiteResponse = _modelResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.User, TestData.Suite).Result;
+            var suiteResponse = _modelResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.User, TestData.Suite);
             SuiteId = suiteResponse.Data.Id;
         }
         
         [Test]
         public void UpdateSuit_ValidSuit_ShouldReturnOk()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.User, TestData.UpdateSuite).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.User, TestData.UpdateSuite);
 
             Console.Out.WriteLine("response Project id: " + response.Data.ProjectId);
 
@@ -55,7 +55,7 @@ namespace TestRailApi.Tests
         [Test]
         public void UpdateSuite_InvalidSuiteId_ShouldReturnBadRequest()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + InvalidId, RequestType, TestData.User, TestData.Suite).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + InvalidId, RequestType, TestData.User, TestData.Suite);
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -63,7 +63,7 @@ namespace TestRailApi.Tests
         [Test]
         public void UpdateSuite_UserNoAccess_ShouldReturnForbidden()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.UserNoAccess, TestData.UpdateSuite).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.UserNoAccess, TestData.UpdateSuite);
 
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
@@ -71,7 +71,7 @@ namespace TestRailApi.Tests
         [Test]
         public void UpdateSuite_UnauthorizedUser_ShouldReturnUnauthorized()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.FakeUser, TestData.UpdateSuite).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.FakeUser, TestData.UpdateSuite);
             
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -80,7 +80,7 @@ namespace TestRailApi.Tests
         public void UpdateSuite_RequestWithoutName_ShouldReturnOk()
         {
             var expectedResult = ModelGeneratorHelper.GetSuiteWithoutName(TestData.UpdateSuite);
-            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.User, expectedResult).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.User, expectedResult);
             
             Assert.Multiple(() =>
             {
@@ -94,7 +94,7 @@ namespace TestRailApi.Tests
         public void UpdateSuite_RequestWithoutDescription_ShouldReturnOk()
         {
             var expectedResult = ModelGeneratorHelper.GetSuiteWithoutDescription(TestData.UpdateSuite);
-            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.User, expectedResult).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.UpdateSuiteEndPoint + SuiteId, RequestType, TestData.User, expectedResult);
             
             Assert.Multiple(() =>
             {

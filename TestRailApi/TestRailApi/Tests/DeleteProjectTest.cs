@@ -20,7 +20,7 @@ namespace TestRailApi.Tests
         {
             _modelResponseSteps = new ModelResponseSteps<ProjectResponseModel>();
             
-            var response = _modelResponseSteps.CreateResponse(EndPoints.AddProjectEndPoint, "Post", TestData.User, TestData.Project).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.AddProjectEndPoint, "Post", TestData.User, TestData.Project);
 
             ProjectId = response.Data.Id;
         }
@@ -28,7 +28,7 @@ namespace TestRailApi.Tests
         [Test]
         public void DeleteProject_ExistentProject_ShouldReturnOk()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + ProjectId, RequestType, TestData.User).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + ProjectId, RequestType, TestData.User);
             
             Assert.Multiple(() =>
             { 
@@ -40,7 +40,7 @@ namespace TestRailApi.Tests
         [Test]
         public void DeleteProject_NonExistentProject_ShouldReturnBadRequest()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + FakeProjectId, RequestType, TestData.User).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + FakeProjectId, RequestType, TestData.User);
             
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -48,7 +48,7 @@ namespace TestRailApi.Tests
         [Test]
         public void DeleteProject_UserNoAccess_ShouldReturnForbidden()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + ProjectId, RequestType, TestData.UserNoAccess).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + ProjectId, RequestType, TestData.UserNoAccess);
             
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
@@ -56,7 +56,7 @@ namespace TestRailApi.Tests
         [Test]
         public void DeleteProject_UnauthorizedUser_ShouldReturnUnauthorized()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + ProjectId, RequestType, TestData.FakeUser).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + ProjectId, RequestType, TestData.FakeUser);
             
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -64,7 +64,7 @@ namespace TestRailApi.Tests
         [Test]
         public void DeleteProject_InvalidProjectId_ShouldReturnBadRequest()
         {
-            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + InvalidId, RequestType, TestData.User).Result;
+            var response = _modelResponseSteps.CreateResponse(EndPoints.DeleteProjectEndPoint + InvalidId, RequestType, TestData.User);
             
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }

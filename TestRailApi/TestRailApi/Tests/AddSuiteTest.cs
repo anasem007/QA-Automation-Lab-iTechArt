@@ -21,7 +21,7 @@ namespace TestRailApi.Tests
             _suiteResponseSteps = new ModelResponseSteps<SuiteResponseModel>();
 
             var projectResponseSteps = new ModelResponseSteps<ProjectResponseModel>();
-            var response = projectResponseSteps.CreateResponse(EndPoints.AddProjectEndPoint, RequestType, TestData.User, TestData.Project).Result;
+            var response = projectResponseSteps.CreateResponse(EndPoints.AddProjectEndPoint, RequestType, TestData.User, TestData.Project);
 
             ProjectId = response.Data.Id;
         }
@@ -29,7 +29,7 @@ namespace TestRailApi.Tests
         [Test]
         public void AddSuit_ValidSuit_ShouldReturnOk()
         {
-            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.User, TestData.Suite).Result;
+            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.User, TestData.Suite);
 
             Assert.Multiple(() =>
             {
@@ -49,7 +49,7 @@ namespace TestRailApi.Tests
         [Test]
         public void AddSuit_NonExistentProject_ShouldReturnBadRequest()
         {
-            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + FakeProjectId, RequestType, TestData.User, TestData.Suite).Result;
+            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + FakeProjectId, RequestType, TestData.User, TestData.Suite);
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -57,7 +57,7 @@ namespace TestRailApi.Tests
         [Test]
         public void AddSuit_UserNoAccess_ShouldReturnForbidden()
         {
-            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.UserNoAccess, TestData.User).Result;
+            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.UserNoAccess, TestData.User);
 
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
@@ -65,7 +65,7 @@ namespace TestRailApi.Tests
         [Test]
         public void AddSuit_UnauthorizedUser_ShouldReturnUnauthorized()
         {
-            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.FakeUser, TestData.User).Result;
+            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType, TestData.FakeUser, TestData.User);
 
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -73,7 +73,7 @@ namespace TestRailApi.Tests
         [Test]
         public void AddSuite_InvalidProjectId_ShouldReturnBadRequest()
         {
-            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + InvalidId, RequestType, TestData.User, TestData.Suite).Result;
+            var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + InvalidId, RequestType, TestData.User, TestData.Suite);
             
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -83,7 +83,7 @@ namespace TestRailApi.Tests
         {
             var expectedProject = ModelGeneratorHelper.GetSuiteWithoutName(TestData.Suite);
             var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType,
-                TestData.User, expectedProject).Result;
+                TestData.User, expectedProject);
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -93,7 +93,7 @@ namespace TestRailApi.Tests
         {
             var expectedProject = ModelGeneratorHelper.GetSuiteWithoutDescription(TestData.Suite);
             var response = _suiteResponseSteps.CreateResponse(EndPoints.AddSuiteEndPoint + ProjectId, RequestType,
-                TestData.User, expectedProject).Result;
+                TestData.User, expectedProject);
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
